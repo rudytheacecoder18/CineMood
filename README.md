@@ -2,136 +2,147 @@
 
 > **Find movies that match your mood. Because every movie has a mood.**
 
-A mood-based cinematic discovery platform. Search any movie and CineMood builds
-four recommendation categories based on emotional tone, director, cast, and
-critical acclaim — all powered by the live TMDB API.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-CineMood-f5c518?style=for-the-badge&logo=streamlit)](https://rudytheacecoder18-cinemood-app-1r2wxf.streamlit.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-rudytheacecoder18-181717?style=for-the-badge&logo=github)](https://github.com/rudytheacecoder18/CineMood)
+
+## 🌐 Live Demo
+
+**[→ Launch CineMood](https://rudytheacecoder18-cinemood-app-1r2wxf.streamlit.app/)**
 
 ---
 
-## Features
+## What is CineMood?
 
-- **Similar Vibe & Mood** — films with the same emotional atmosphere and tone
-- **Same Director** — the director's complete filmography, ranked by rating
-- **Shared Cast** — movies starring the same actors, ranked by overlap count
-- **Critically Acclaimed** — classics at the same quality tier (vote-count verified)
-- **Genre Wheel** — spin to explore top films in any genre
-- **Movie Cards** — poster, year, IMDb score, hover overview, and "Why Recommended" tags
-- **Zero local dataset** — all data is live from TMDB, so nothing goes stale
+CineMood is a **mood-based cinematic discovery platform**. Search any movie and get four intelligent recommendation categories — based on emotional tone, director, cast, and critical acclaim — all powered by live TMDB data.
+
+Unlike generic recommenders that match by genre, CineMood understands the *cinematic feel* of a film. Search Fight Club and get Taxi Driver, Joker, and Nightcrawler — not random action movies — because they share themes of male alienation, identity crisis, and psychological descent.
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-| Layer       | Tool                          |
-|-------------|-------------------------------|
-| Language    | Python 3.10+                  |
-| UI          | Streamlit                     |
-| Data        | TMDB API (live)               |
-| HTTP        | Requests                      |
-| Caching     | Streamlit `@st.cache_data`    |
-| Deployment  | Streamlit Cloud (free)        |
+| Feature | Description |
+|---|---|
+| 🔮 **Similar Vibe & Mood** | Films with the same emotional atmosphere and cinematic tone |
+| 🎬 **Same Director** | The director's complete filmography, ranked by rating |
+| 👥 **Shared Cast** | Films starring the same actors, ranked by overlap |
+| ⭐ **Critically Acclaimed** | Verified classics at the same quality tier |
+| 🎡 **Genre Wheel** | Spin to discover top films in any genre |
+| 🏷️ **Mood Tags** | Thematic tags like "Male Alienation", "Psychological Descent" |
+| 🎴 **Movie Cards** | Poster, year, rating, hover-to-reveal overview |
 
 ---
 
-## Setup
+## 📸 Screenshots
 
-### 1. Clone and install
+### Search & Movie Card
+![CineMood Search](screenshots/search.png)
 
+### Similar Vibe & Mood Section
+![Similar Vibe](screenshots/vibe.png)
+
+### All Recommendation Sections
+![All Sections](screenshots/sections.png)
+
+---
+
+## 🧠 How It Works
+
+### The Curated Mood Layer (`moods.py`)
+The core differentiator. Hand-picked mood profiles for ~30 iconic films map each title to films with the same *emotional* experience — not just genre. This is what makes Fight Club recommend Taxi Driver instead of random action films.
+
+### Four Recommendation Engines
+
+**🔮 Mood / Vibe** — Curated hand-picked films + TMDB recommendations + similar movies. Scored by genre overlap (50%), vote quality (30%), and popularity (20%).
+
+**🎬 Director** — Full filmography via TMDB person credits, filtered by vote count, sorted by rating.
+
+**👥 Actors** — Credits of top 4 billed cast, ranked by how many share the film, then by rating.
+
+**⭐ Acclaimed** — High vote average + vote count ≥ 5,000. The floor prevents inflated scores from tiny audiences.
+
+### Zero Local Dataset
+Everything fetches live from TMDB. No CSV files, no stale data.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Language | Python 3.10+ |
+| UI | Streamlit |
+| Data | TMDB API (live) |
+| HTTP | `urllib` (Python built-in) |
+| Caching | `@st.cache_data` |
+| Deployment | Streamlit Cloud (free) |
+
+---
+
+## ⚙️ Run Locally
+
+### 1. Clone
 ```bash
-git clone https://github.com/YOUR_USERNAME/CineMood.git
+git clone https://github.com/rudytheacecoder18/CineMood.git
 cd CineMood
+```
+
+### 2. Install
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Get your free TMDB API key
+### 3. Get a free TMDB API key
+Go to [themoviedb.org/settings/api](https://www.themoviedb.org/settings/api)
 
-Go to: https://www.themoviedb.org/settings/api  
-Register for a free account → request an API key (takes ~1 minute).
-
-### 3. Set your API key
-
-Create a `.env` file in the project root:
-
+### 4. Create `.env`
 ```
 TMDB_API_KEY=your_api_key_here
 ```
 
-### 4. Run
-
+### 5. Run
 ```bash
 streamlit run app.py
 ```
 
 ---
 
-## Deployment (Streamlit Cloud)
-
-1. Push the repo to GitHub (do NOT commit your `.env` file — add it to `.gitignore`)
-2. Go to https://share.streamlit.io → New app → select your repo
-3. In **Advanced settings → Secrets**, add:
-   ```toml
-   TMDB_API_KEY = "your_api_key_here"
-   ```
-4. Deploy — your app goes live in ~2 minutes for free.
-
----
-
-## Project Structure
+## 📂 Project Structure
 
 ```
 CineMood/
-├── app.py              # Streamlit UI — all pages, layout, CSS
-├── recommender.py      # 4 recommendation engines + genre wheel
-├── tmdb_client.py      # Clean TMDB API wrapper
+├── app.py          → Streamlit UI, CSS, all layout
+├── recommender.py  → 4 recommendation engines + genre wheel
+├── tmdb_client.py  → TMDB API wrapper (urllib, retry logic)
+├── moods.py        → Curated mood profiles for ~30 iconic films
 ├── requirements.txt
-├── .env.example        # Copy to .env and add your key
+├── .env.example
 ├── .gitignore
+├── .streamlit/
+│   └── config.toml → Dark cinematic theme
 └── README.md
 ```
 
 ---
 
-## How It Works
-
-### Mood Recommendations
-Combines TMDB's own recommendation engine, similar-movie results, keyword-based
-discovery, and genre-based discovery. Scores candidates by genre overlap (50%),
-vote average (30%), and popularity breadth (20%). The "Why Recommended" tags
-show shared genres — computed with no extra API calls.
-
-### Director Recommendations
-Fetches the director's full filmography via the TMDB person credits endpoint,
-filters out low-vote films, and sorts by rating.
-
-### Actor Recommendations
-Checks the movie credits of the top 4 billed cast members, counts how many
-share a film, and ranks by overlap count then by rating.
-
-### Acclaimed Recommendations
-Discovers films with a high vote average *and* a high vote count (≥5000).
-The vote count filter is critical — it ensures only genuine classics appear,
-not obscure films with inflated scores from a small audience.
-
----
-
-## ML Concepts Used
+## 📌 ML & Engineering Concepts
 
 - Content-based filtering
 - Multi-source candidate generation
-- Weighted scoring / ranking
-- Cosine similarity (via TMDB's own engine)
-- Genre overlap as a proxy for mood/tone similarity
+- Weighted scoring & ranking
+- Curated knowledge layer (cinematic mood ontology)
+- Network fault tolerance (retry logic)
+- Response caching with `@st.cache_data`
 
 ---
 
-## Add to `.gitignore`
+## 🚀 Deploy Your Own
 
-```
-.env
-.streamlit/secrets.toml
-__pycache__/
-*.pyc
-```
+1. Fork this repo
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Connect your fork → set main file to `app.py`
+4. Add `TMDB_API_KEY = "your_key"` in Secrets
+5. Deploy — live in ~2 minutes
 
 ---
 
