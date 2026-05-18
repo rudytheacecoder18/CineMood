@@ -22,6 +22,12 @@ BASE_URL = "https://api.themoviedb.org/3"
 # Unverified SSL context fixes the WinError 10054 issue on Windows
 _ssl = ssl._create_unverified_context()
 
+# In-memory caches to eliminate sequential network bottlenecks on Streamlit Cloud
+_movie_cache = {}
+_credits_cache = {}
+_keywords_cache = {}
+_person_cache = {}
+
 
 # ── Core fetch ────────────────────────────────────────────────────────────────
 
@@ -35,9 +41,15 @@ def _fetch(endpoint: str, params: dict = None, retries: int = 4) -> dict:
     params["api_key"] = API_KEY
     url = f"{BASE_URL}{endpoint}?{urlencode(params)}"
 
+    # Add a proper User-Agent header to stop Cloudflare/TMDB blocking requests from Cloud datacenters
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    req = urllib.request.Request(url, headers=headers)
+
     for attempt in range(retries):
         try:
-            with urllib.request.urlopen(url, context=_ssl, timeout=15) as resp:
+            with urllib.request.urlopen(req, context=_ssl, timeout=15) as resp:
                 return json.loads(resp.read())
         except Exception:
             if attempt < retries - 1:
@@ -67,19 +79,34 @@ def search_movie(query: str) -> list:
 # ── Single movie data ─────────────────────────────────────────────────────────
 
 def get_movie(movie_id: int) -> dict:
-    """Full detail for one movie (genres, runtime, tagline, etc.)."""
-    return _fetch(f"/movie/{movie_id}")
+    """Full detail for one movie (genres, runtime, tagline, etc.) with caching."""
+    if movie_id in _movie_cache:
+        return _movie_cache[movie_id]
+    data = _fetch(f"/movie/{movie_id}")
+    if data and data.get("title"):
+        _movie_cache[movie_id] = data
+    return data
 
 
 def get_credits(movie_id: int) -> dict:
-    """Cast and crew for one movie."""
-    return _fetch(f"/movie/{movie_id}/credits")
+    """Cast and crew for one movie with caching."""
+    if movie_id in _credits_cache:
+        return _credits_cache[movie_id]
+    data = _fetch(f"/movie/{movie_id}/credits")
+    if data:
+        _credits_cache[movie_id] = data
+    return data
 
 
 def get_keywords(movie_id: int) -> list:
-    """Editorial keyword tags (e.g. 'psychological-thriller')."""
+    """Editorial keyword tags (e.g. 'psychological-thriller') with caching."""
+    if movie_id in _keywords_cache:
+        return _keywords_cache[movie_id]
     data = _fetch(f"/movie/{movie_id}/keywords")
-    return data.get("keywords", [])
+    kw = data.get("keywords", [])
+    if data:
+        _keywords_cache[movie_id] = kw
+    return kw
 
 
 # ── Recommendation sources ────────────────────────────────────────────────────
@@ -95,9 +122,14 @@ def get_similar(movie_id: int, pages: int = 2) -> list:
 
 
 def get_person_credits(person_id: int) -> dict:
-    """All movies a person (actor/director) has worked on."""
+    """All movies a person (actor/director) has worked on with caching."""
+    if person_id in _person_cache:
+        return _person_cache[person_id]
     data = _fetch(f"/person/{person_id}/movie_credits")
-    return data if data else {"cast": [], "crew": []}
+    res = data if data else {"cast": [], "crew": []}
+    if data:
+        _person_cache[person_id] = res
+    return res
 
 
 def discover(params: dict, pages: int = 2) -> list:

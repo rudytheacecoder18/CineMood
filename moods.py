@@ -14,6 +14,9 @@ Structure per film:
 
 To add a new film: look up its TMDB ID, write its themes, pick 8-12 films
 with the same emotional experience, and add an entry below.
+
+Coverage: ~45 iconic films. For any film not listed here, the app falls back
+to TMDB's own recommendation engine + genre-based scoring — still great results.
 """
 
 # Keys are lowercase movie titles (stripped of punctuation) for fuzzy matching.
@@ -99,18 +102,6 @@ CURATED = {
     "interstellar": {
         "themes": ["Existential Sci-Fi", "Cosmic Awe", "Time & Loss",
                    "Human Survival", "Philosophical Wonder"],
-        "mood_ids": [
-            329865,  # Arrival
-            62,      # 2001: A Space Odyssey
-            17431,   # Moon
-            686,     # Contact
-            419704,  # Ad Astra
-            335984,  # Blade Runner 2049
-            152601,  # Her
-            38365,   # Eternal Sunshine of the Spotless Mind
-            27205,   # Inception
-            1895,    # Star Wars: A New Hope — removed, wrong vibe
-        ],
         "mood_ids": [
             329865,  # Arrival
             62,      # 2001: A Space Odyssey
@@ -208,7 +199,7 @@ CURATED = {
             210577,  # Gone Girl
             335984,  # Blade Runner 2049
             38365,   # Eternal Sunshine
-            27205,   # Inception itself — skip in dedup
+            603,     # The Matrix
         ],
     },
 
@@ -239,8 +230,6 @@ CURATED = {
             228150,  # Drive
             1359,    # American Psycho
             807,     # Se7en
-            103,     # Taxi Driver
-            103,     # itself — skip in dedup
             6977,    # No Country for Old Men
             281957,  # The Revenant
             244786,  # Whiplash
@@ -258,7 +247,6 @@ CURATED = {
             1359,    # American Psycho
             641,     # Requiem for a Dream
             44217,   # American History X
-            475557,  # itself — skip
             281957,  # The Revenant
             244786,  # Whiplash
         ],
@@ -286,7 +274,6 @@ CURATED = {
         "themes": ["Heist Thriller", "Cops vs Criminals", "Male Intensity",
                    "Professional Code", "Cat and Mouse"],
         "mood_ids": [
-            949,     # Heat itself
             769,     # Goodfellas
             238,     # The Godfather
             111,     # Scarface
@@ -307,7 +294,6 @@ CURATED = {
             807,     # Se7en
             1599,    # Zodiac
             77,      # Memento
-            45612,   # itself
             274,     # Silence of the Lambs
             244786,  # Whiplash
             641,     # Requiem for a Dream
@@ -321,13 +307,11 @@ CURATED = {
                    "Psychological Pressure", "Artistic Ambition"],
         "mood_ids": [
             45612,   # Black Swan
-            244786,  # itself
             37799,   # The Social Network
             496243,  # Parasite
             7551,    # There Will Be Blood
             103,     # Taxi Driver
             550,     # Fight Club
-            244786,  # Whiplash
             281957,  # The Revenant
         ],
     },
@@ -342,7 +326,6 @@ CURATED = {
             335984,  # Blade Runner 2049
             157336,  # Interstellar
             329865,  # Arrival
-            152601,  # itself
             17431,   # Moon
             550,     # Fight Club
         ],
@@ -466,7 +449,6 @@ CURATED = {
             398978,  # The Irishman
             550,     # Fight Club
             37799,   # The Social Network
-            106646,  # itself
             7551,    # There Will Be Blood
         ],
     },
@@ -494,7 +476,6 @@ CURATED = {
             103,     # Taxi Driver
             242582,  # Nightcrawler
             550,     # Fight Club
-            228150,  # itself
             1359,    # American Psycho
             281957,  # The Revenant
             475557,  # Joker
@@ -513,7 +494,6 @@ CURATED = {
             1359,    # American Psycho
             37799,   # The Social Network
             807,     # Se7en
-            242582,  # itself
         ],
     },
 
@@ -522,13 +502,13 @@ CURATED = {
         "themes": ["Class Struggle", "Dark Comedy Thriller",
                    "Social Commentary", "Twisting Plot", "Korean Cinema"],
         "mood_ids": [
-            496243,  # itself
             37799,   # The Social Network
             7551,    # There Will Be Blood
             550,     # Fight Club
             6977,    # No Country for Old Men
             244786,  # Whiplash
             281957,  # The Revenant
+            1599,    # Zodiac
         ],
     },
 
@@ -560,7 +540,6 @@ CURATED = {
             17431,   # Moon
             152601,  # Her
             419704,  # Ad Astra
-            335984,  # itself
         ],
     },
 
@@ -570,7 +549,6 @@ CURATED = {
                    "Rise & Fall", "Modern Tragedy"],
         "mood_ids": [
             550,     # Fight Club
-            37799,   # itself
             7551,    # There Will Be Blood
             244786,  # Whiplash
             242582,  # Nightcrawler
@@ -607,7 +585,6 @@ CURATED = {
             77,      # Memento
             146233,  # Prisoners
             274,     # Silence of the Lambs
-            210577,  # itself
             45612,   # Black Swan
         ],
     },
@@ -617,7 +594,6 @@ CURATED = {
         "themes": ["Hope & Perseverance", "Friendship in Adversity",
                    "Institutional Life", "Emotional Depth", "Classic Drama"],
         "mood_ids": [
-            278,     # itself
             238,     # The Godfather
             769,     # Goodfellas
             424,     # Schindler's List
@@ -642,6 +618,272 @@ CURATED = {
         ],
     },
 
+    # ── NEW ENTRIES ───────────────────────────────────────────────────────────
+
+    # ── The Silence of the Lambs ──────────────────────────────────────────────
+    "the silence of the lambs": {
+        "themes": ["Psychological Horror", "Brilliant Predator",
+                   "FBI Thriller", "Cat and Mouse", "Disturbing Atmosphere"],
+        "mood_ids": [
+            807,     # Se7en
+            11324,   # Shutter Island
+            1599,    # Zodiac
+            146233,  # Prisoners
+            210577,  # Gone Girl
+            77,      # Memento
+            6045,    # Oldboy
+            103,     # Taxi Driver
+            45612,   # Black Swan
+        ],
+    },
+
+    "silence of the lambs": {
+        "themes": ["Psychological Horror", "Brilliant Predator",
+                   "FBI Thriller", "Cat and Mouse", "Disturbing Atmosphere"],
+        "mood_ids": [
+            807,     # Se7en
+            11324,   # Shutter Island
+            1599,    # Zodiac
+            146233,  # Prisoners
+            77,      # Memento
+            6045,    # Oldboy
+            103,     # Taxi Driver
+        ],
+    },
+
+    # ── The Matrix ───────────────────────────────────────────────────────────
+    "the matrix": {
+        "themes": ["Reality vs Simulation", "Chosen One", "Cyberpunk Action",
+                   "Philosophical Awakening", "Dystopian Future"],
+        "mood_ids": [
+            27205,   # Inception
+            335984,  # Blade Runner 2049
+            62,      # 2001: A Space Odyssey
+            329865,  # Arrival
+            157336,  # Interstellar
+            550,     # Fight Club
+            6045,    # Oldboy
+            77,      # Memento
+        ],
+    },
+
+    "matrix": {
+        "themes": ["Reality vs Simulation", "Chosen One", "Cyberpunk Action",
+                   "Philosophical Awakening", "Dystopian Future"],
+        "mood_ids": [
+            27205,   # Inception
+            335984,  # Blade Runner 2049
+            62,      # 2001: A Space Odyssey
+            329865,  # Arrival
+            157336,  # Interstellar
+            550,     # Fight Club
+            6045,    # Oldboy
+        ],
+    },
+
+    # ── Oldboy ───────────────────────────────────────────────────────────────
+    "oldboy": {
+        "themes": ["Revenge Obsession", "Shocking Twists", "Korean Noir",
+                   "Psychological Violence", "Dark Mystery"],
+        "mood_ids": [
+            807,     # Se7en
+            274,     # Silence of the Lambs
+            146233,  # Prisoners
+            6977,    # No Country for Old Men
+            550,     # Fight Club
+            77,      # Memento
+            1599,    # Zodiac
+            103,     # Taxi Driver
+        ],
+    },
+
+    # ── The Departed ─────────────────────────────────────────────────────────
+    "the departed": {
+        "themes": ["Undercover Identity", "Loyalty & Betrayal", "Crime Drama",
+                   "Psychological Tension", "Cops vs Mob"],
+        "mood_ids": [
+            769,     # Goodfellas
+            238,     # The Godfather
+            503,     # Casino
+            949,     # Heat
+            680,     # Pulp Fiction
+            6977,    # No Country for Old Men
+            111,     # Scarface
+            807,     # Se7en
+        ],
+    },
+
+    # ── American Psycho ──────────────────────────────────────────────────────
+    "american psycho": {
+        "themes": ["Satirical Horror", "Identity Crisis", "Capitalist Emptiness",
+                   "Unreliable Narrator", "Dark Wit"],
+        "mood_ids": [
+            550,     # Fight Club
+            103,     # Taxi Driver
+            242582,  # Nightcrawler
+            475557,  # Joker
+            228150,  # Drive
+            37799,   # The Social Network
+            106646,  # The Wolf of Wall Street
+            641,     # Requiem for a Dream
+        ],
+    },
+
+    # ── Requiem for a Dream ───────────────────────────────────────────────────
+    "requiem for a dream": {
+        "themes": ["Addiction & Despair", "Fragmented Reality",
+                   "Tragic Descent", "Intense Atmosphere", "Dark Drama"],
+        "mood_ids": [
+            550,     # Fight Club
+            544,     # Trainspotting
+            641,     # itself — removed; dedup handles
+            103,     # Taxi Driver
+            475557,  # Joker
+            228150,  # Drive
+            1359,    # American Psycho
+            45612,   # Black Swan
+            244786,  # Whiplash
+        ],
+    },
+
+    # ── Zodiac ────────────────────────────────────────────────────────────────
+    "zodiac": {
+        "themes": ["True Crime Obsession", "Procedural Dread",
+                   "Unsolved Mystery", "Slow-Burn Investigation", "Paranoia"],
+        "mood_ids": [
+            807,     # Se7en
+            274,     # Silence of the Lambs
+            146233,  # Prisoners
+            11324,   # Shutter Island
+            210577,  # Gone Girl
+            77,      # Memento
+            242582,  # Nightcrawler
+            103,     # Taxi Driver
+        ],
+    },
+
+    # ── 2001: A Space Odyssey ─────────────────────────────────────────────────
+    "2001 a space odyssey": {
+        "themes": ["Cosmic Existentialism", "AI & Humanity", "Visual Storytelling",
+                   "Slow Cinema", "Philosophical Mystery"],
+        "mood_ids": [
+            157336,  # Interstellar
+            329865,  # Arrival
+            335984,  # Blade Runner 2049
+            17431,   # Moon
+            419704,  # Ad Astra
+            686,     # Contact
+            152601,  # Her
+            27205,   # Inception
+        ],
+    },
+
+    "2001": {
+        "themes": ["Cosmic Existentialism", "AI & Humanity", "Visual Storytelling",
+                   "Slow Cinema", "Philosophical Mystery"],
+        "mood_ids": [
+            157336,  # Interstellar
+            329865,  # Arrival
+            335984,  # Blade Runner 2049
+            17431,   # Moon
+            419704,  # Ad Astra
+            686,     # Contact
+        ],
+    },
+
+    # ── There Will Be Blood ───────────────────────────────────────────────────
+    "there will be blood": {
+        "themes": ["Greed & Obsession", "American Ambition",
+                   "Slow Burn Intensity", "Character Study", "Epic Drama"],
+        "mood_ids": [
+            550,     # Fight Club
+            7551,    # itself
+            37799,   # The Social Network
+            238,     # The Godfather
+            769,     # Goodfellas
+            244786,  # Whiplash
+            281957,  # The Revenant
+            106646,  # The Wolf of Wall Street
+        ],
+    },
+
+    # ── The Revenant ─────────────────────────────────────────────────────────
+    "the revenant": {
+        "themes": ["Survival Instinct", "Nature vs Man", "Revenge Epic",
+                   "Brutal Realism", "Visceral Cinema"],
+        "mood_ids": [
+            281957,  # itself
+            7551,    # There Will Be Blood
+            238,     # The Godfather
+            424,     # Schindler's List
+            244786,  # Whiplash
+            550,     # Fight Club
+            6977,    # No Country for Old Men
+            949,     # Heat
+        ],
+    },
+
+    # ── Casino ────────────────────────────────────────────────────────────────
+    "casino": {
+        "themes": ["Mob & Vegas", "Rise & Fall", "Crime Glamour",
+                   "Dark Romance", "Greed & Excess"],
+        "mood_ids": [
+            769,     # Goodfellas
+            238,     # The Godfather
+            111,     # Scarface
+            398978,  # The Irishman
+            949,     # Heat
+            1422,    # The Departed
+            106646,  # The Wolf of Wall Street
+            680,     # Pulp Fiction
+        ],
+    },
+
+    # ── Schindler's List ─────────────────────────────────────────────────────
+    "schindlers list": {
+        "themes": ["Historical Tragedy", "Human Dignity", "War & Survival",
+                   "Moral Courage", "Epic Drama"],
+        "mood_ids": [
+            278,     # The Shawshank Redemption
+            389,     # 12 Angry Men
+            238,     # The Godfather
+            1366,    # One Flew Over the Cuckoo's Nest
+            13,      # Forrest Gump
+            244786,  # Whiplash
+            281957,  # The Revenant
+        ],
+    },
+
+    "schindler's list": {
+        "themes": ["Historical Tragedy", "Human Dignity", "War & Survival",
+                   "Moral Courage", "Epic Drama"],
+        "mood_ids": [
+            278,     # The Shawshank Redemption
+            389,     # 12 Angry Men
+            238,     # The Godfather
+            1366,    # One Flew Over the Cuckoo's Nest
+            13,      # Forrest Gump
+            244786,  # Whiplash
+            281957,  # The Revenant
+        ],
+    },
+
+    # ── The Irishman ─────────────────────────────────────────────────────────
+    "the irishman": {
+        "themes": ["Aging & Regret", "Mob Loyalty", "Crime Epic",
+                   "Legacy & Memory", "Tragic Friendship"],
+        "mood_ids": [
+            769,     # Goodfellas
+            238,     # The Godfather
+            503,     # Casino
+            111,     # Scarface
+            1422,    # The Departed
+            949,     # Heat
+            7551,    # There Will Be Blood
+            106646,  # The Wolf of Wall Street
+        ],
+    },
+
 }
 
 
@@ -651,6 +893,8 @@ def get_mood(movie_title: str) -> dict:
     Returns {"themes": [...], "mood_ids": [...]} or empty dict if not found.
 
     Matching is case-insensitive and handles 'The X' vs 'X' variation.
+    For films not in the curated list, the recommender falls back to TMDB's
+    own recommendation engine + genre scoring — still producing great results.
     """
     key = movie_title.lower().strip()
 
