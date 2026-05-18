@@ -32,17 +32,22 @@ Unlike generic recommenders that match by genre, CineMood understands the *cinem
 | 🎴 **Movie Cards** | Poster, year, rating, hover-to-reveal overview |
 
 ---
-
 ## 📸 Screenshots
 
-### Search & Movie Card
-![CineMood Search](screenshots/search.png)
+### 🎬 Homepage & Search
+![Homepage](screenshots/Homepage.png)
 
-### Similar Vibe & Mood Section
-![Similar Vibe](screenshots/vibe.png)
+### 🔮 Similar Vibe & Mood Recommendations
+![Recommendations](screenshots/Recommendation.png)
 
-### All Recommendation Sections
-![All Sections](screenshots/sections.png)
+### 🎴 Cinematic Movie Cards
+![Movie Cards](screenshots/Movie_cards.png)
+
+### ⭐ Critically Acclaimed Cinema
+![Acclaimed Cinema](screenshots/Acclaimed_cinema.png)
+
+### 🌌 Interstellar Recommendation Example
+![Interstellar Results](screenshots/Interstellar_results.png)
 
 ---
 
@@ -143,6 +148,17 @@ CineMood/
 3. Connect your fork → set main file to `app.py`
 4. Add `TMDB_API_KEY = "your_key"` in Secrets
 5. Deploy — live in ~2 minutes
+
+---
+
+## 🚀 Future Improvements
+
+- OTT platform integration
+- Expanded cinematic mood mappings
+- Better explainable recommendations
+- Enhanced mobile responsiveness
+- More curated emotional recommendation layers
+- Improved search experience and loading states
 
 ---
 
